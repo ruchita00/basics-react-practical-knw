@@ -1,3 +1,4 @@
+import { createContext } from "react";
 import "./App.css";
 import ClassBasedComponent from "./components/ClassBasedComponent";
 import ClassCom from "./components/ClassForm";
@@ -6,16 +7,27 @@ import FunctionalBasedComponent from "./components/FunctionalBasedComponent";
 import CompContext from "./components/functionComponents/CompContext";
 import FunctionCom from "./components/functionComponents/FunctionCom";
 
+export const Context = createContext("light");
+console.log(Context);
+
+//context gives us 2 property
+// 1.consumer : and
+// 2.provider : provider will provide value to your component tree
+// example: if you are having multiple components this provider will give that value to all the component or the subcomponent
+// and using consumer you can consume that value for particular context
+
 function App() {
   return (
-    <div className="App">
-      {/* <ClassBasedComponent /> */}
-      {/* <FunctionalBasedComponent /> */}
-      {/* <ClassCom /> */}
-      {/* <ClassList /> */}
-      {/* <FunctionCom /> */}
-      <CompContext />
-    </div>
+    <Context.Provider value="blue">
+      <div className="App">
+        {/* <ClassBasedComponent /> */}
+        {/* <FunctionalBasedComponent /> */}
+        {/* <ClassCom /> */}
+        {/* <ClassList /> */}
+        {/* <FunctionCom /> */}
+        <CompContext />
+      </div>
+    </Context.Provider>
   );
 }
 
