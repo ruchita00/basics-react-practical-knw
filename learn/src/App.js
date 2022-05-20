@@ -5,6 +5,8 @@ import ClassCom from "./components/ClassForm";
 import ClassList from "./components/ClassList";
 import FunctionalBasedComponent from "./components/FunctionalBasedComponent";
 import CompContext from "./components/functionComponents/CompContext";
+import CompReducer from "./components/functionComponents/CompReducer";
+import CompuseRef from "./components/functionComponents/CompuseRef";
 import FunctionCom from "./components/functionComponents/FunctionCom";
 
 export const Context = createContext("light");
@@ -25,7 +27,9 @@ function App() {
         {/* <ClassCom /> */}
         {/* <ClassList /> */}
         {/* <FunctionCom /> */}
-        <CompContext />
+        {/* <CompContext /> */}
+        {/* <CompReducer /> */}
+        <CompuseRef />
       </div>
     </Context.Provider>
   );

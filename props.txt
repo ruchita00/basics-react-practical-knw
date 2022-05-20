@@ -29,6 +29,7 @@ function FunctionalBasedComponent() {
     <div>
       <Child />
       <PropExample flag={true} data="data as props" />
+                          
     </div>
   );
 }
@@ -37,4 +38,294 @@ export default FunctionalBasedComponent;
 
 
 
-2. how to pass function as component to parent component from child component
+2. how to pass function as component to parent component
+
+child component
+
+import React from "react";
+
+const PropExample = (props) => {
+  console.log(props);
+  const { flag, data, parentComponentHandler } = props;
+  return (
+    <div>
+      {flag && data}
+      <button onClick={parentComponentHandler}>click</button>
+    </div>
+  );
+};
+
+export default PropExample;
+
+
+parent component
+
+import React from "react";
+import PropExample from "./PorpExample";
+
+const Child = () => {
+  return <p>child components</p>;
+};
+
+function FunctionalBasedComponent() {
+  const parentComponentHandler = () => {
+    console.log("hello from parent component");
+  };
+  return (
+    <div>
+      <Child />
+      <PropExample
+        parentComponentHandler={parentComponentHandler}
+        flag={true}
+        data="data as props"
+      />
+      {/* parentComponentHandler is property and {parentComponentHandler} is method */}
+    </div>
+  );
+}
+
+export default FunctionalBasedComponent;
+
+
+
+how to pass data from child to parent
+
+child com
+
+import React from "react";
+import PropExample from "./PorpExample";
+import Chilld from "./PorpExample/Chilld";
+
+const Child = () => {
+  return <p>child components</p>;
+};
+
+function FunctionalBasedComponent() {
+  const parentComponentHandler = () => {
+    console.log("hello from parent component");
+  };
+
+  const getValueFromChildComponent = (value) => {
+    console.log(value)
+  };
+  return (
+    <div>
+      <Child />
+     
+      <Chilld getValueFromChildComponent={getValueFromChildComponent} />
+      {/* parentComponentHandler is property and {parentComponentHandler} is method */}
+    </div>
+  );
+}
+
+export default FunctionalBasedComponent;
+
+parent com
+import React from "react";
+
+const Chilld = (props) => {
+  const { getValueFromChildComponent } = props;
+
+  const handleClick = () => {
+    const count = 5;
+    getValueFromChildComponent(count + 1);
+  };
+  return (
+    <div>
+      <button onClick={handleClick}>Click</button>
+    </div>
+  );
+};
+
+export default Chilld;
+
+
+
+class component:
+
+how to bind 
+
+ctor(props) {
+    super(props);
+    this.state = {
+      //write all state properties inside it
+      count: 0,
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+
+in class based component how to work with state
+
+import React, { Component } from "react";
+
+class ClassBasedComponent extends Component {
+  state = {
+    //write all state properties
+    count: 0,
+    //initial value of count property
+  };
+
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     //write all state properties inside it
+  //     count: 0,
+  //   };
+  //   this.handleClick = this.handleClick.bind(this);
+  // }
+
+  handleClick = () => {
+    // whenever we need to do mutating the state we only use this.setState
+    // this.state.count =this.state.count +1; //directly mutation the state /////// this is wrong
+    //setState method
+
+    const { count } = this.state;
+
+    this.setState(
+      {
+        count: count + 1,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
+  };
+
+  render() {
+    console.log(this.state);
+    return (
+      <div>
+        <button onClick={this.handleClick}>Click</button>
+        {this.state.count === 5 && "hello"}
+      </div>
+    );
+  }
+}
+
+export default ClassBasedComponent;
+
+
+UseEFFECT:
+
+
+import React, { useEffect, useState } from "react";
+
+const FunctionCom = () => {
+  const [count, setCount] = useState(0); // initial state
+  console.log(count);
+  const [flag, setFlag] = useState(false);
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
+
+  useEffect(() => {
+    console.log("effect is called only once on page load");
+  }, []);
+
+  //useEffect is called only once on page load
+  //when we add dependency array in useEffect its same as componentdidmount in class component
+
+  //lets see how we can use useEffect as sideEffect as componentdidupdate
+  useEffect(() => {
+    if (count === 5) {
+      setFlag(true);
+    }
+  }, [count]); //componentdidupdate
+
+  //   this useEffect is working as componentdidUpdate
+  // because you just checking previous state and the current state and ... if your checking with current state ===5 then your changing your flag as true and based on that your rendering msg
+
+  // as we have in class component componentWillUnmount to cleanUp all sideEffect
+  // when the component will be destroy or unmounted
+  //the same thing you can do by useEffect
+
+  useEffect(() => {
+    return () => {
+      console.log("unmounted");
+    };
+  }); //componentWillUnmounted
+
+  //first call componentdidmount,immeditely it is unmount
+  return (
+    <div>
+      <button onClick={handleClick}>Click</button>
+      Counter value is :{count}
+      {flag && <p>Hello useEffect</p>}
+    </div>
+  );
+};
+
+export default FunctionCom;
+
+//useState => used to update or manage any kind of state
+//useEffect=>  it handle any kind of sideeffect  in class based component 1.componentdidmount 2.componentdidupdate 3.componentwillunmount
+
+// on every render useEffet is called
+//useContext =>this is basically manage global level state
+//useReducer
+//useref
+
+
+
+useContext
+
+
+import { createContext } from "react";
+import "./App.css";
+import ClassBasedComponent from "./components/ClassBasedComponent";
+import ClassCom from "./components/ClassForm";
+import ClassList from "./components/ClassList";
+import FunctionalBasedComponent from "./components/FunctionalBasedComponent";
+import CompContext from "./components/functionComponents/CompContext";
+import FunctionCom from "./components/functionComponents/FunctionCom";
+
+export const Context = createContext("light");
+console.log(Context);
+
+//context gives us 2 property
+// 1.consumer : and
+// 2.provider : provider will provide value to your component tree
+// example: if you are having multiple components this provider will give that value to all the component or the subcomponent
+// and using consumer you can consume that value for particular context
+
+function App() {
+  return (
+    <Context.Provider value="blue">
+      <div className="App">
+        {/* <ClassBasedComponent /> */}
+        {/* <FunctionalBasedComponent /> */}
+        {/* <ClassCom /> */}
+        {/* <ClassList /> */}
+        {/* <FunctionCom /> */}
+        <CompContext />
+      </div>
+    </Context.Provider>
+  );
+}
+
+export default App;
+
+
+
+import React, { useContext } from "react";
+import { Context } from "../../App";
+
+const CompContext = () => {
+  const getValueFromContext = useContext(Context);
+  console.log(getValueFromContext);
+  return (
+    <div>
+      <button style={{ backgroundColor: getValueFromContext }}>Click</button>
+    </div>
+  );
+};
+
+export default CompContext;
+
+//how basically manage global state using context
+
+
+
+
