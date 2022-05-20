@@ -1,0 +1,40 @@
+props:
+
+its basically the way passing data one component into another component
+parent to child and child to parent
+
+child component
+import React from "react";
+
+const PropExample = (props) => {
+  console.log(props);
+  const { flag, data } = props;
+  return <div>{flag && data}</div>;
+};
+
+export default PropExample;
+
+
+parent component
+
+import React from "react";
+import PropExample from "./PorpExample";
+
+const Child = () => {
+  return <p>child components</p>;
+};
+
+function FunctionalBasedComponent() {
+  return (
+    <div>
+      <Child />
+      <PropExample flag={true} data="data as props" />
+    </div>
+  );
+}
+
+export default FunctionalBasedComponent;
+
+
+
+2. how to pass function as component to parent component from child component

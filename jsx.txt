@@ -1,0 +1,13 @@
+babel:
+const demo=(<div>Hello world</div>)
+
+
+pure js:
+
+const demo=React.createElement(''div",null,''Hello world");
+
+if we are not passing any parameter we are giving null
+
+const demo=(<div className=''ruchi''>hello world</div>)
+
+const demo =React.createElement(''div'',{className:''ruchi''},"hello world'');
