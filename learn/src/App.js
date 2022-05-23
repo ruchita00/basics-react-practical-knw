@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import "./App.css";
 import ClassBasedComponent from "./components/ClassBasedComponent";
 import ClassCom from "./components/ClassForm";
@@ -8,6 +8,9 @@ import CompContext from "./components/functionComponents/CompContext";
 import CompReducer from "./components/functionComponents/CompReducer";
 import CompuseRef from "./components/functionComponents/CompuseRef";
 import FunctionCom from "./components/functionComponents/FunctionCom";
+import { GlobalContext } from "./GlobalContext";
+import MovieList from "./movieComponents/MovieList";
+import Search from "./movieComponents/Search";
 
 export const Context = createContext("light");
 console.log(Context);
@@ -19,19 +22,22 @@ console.log(Context);
 // and using consumer you can consume that value for particular context
 
 function App() {
+  const { movieList } = useContext(GlobalContext);
   return (
-    <Context.Provider value="blue">
-      <div className="App">
-        {/* <ClassBasedComponent /> */}
-        {/* <FunctionalBasedComponent /> */}
-        {/* <ClassCom /> */}
-        {/* <ClassList /> */}
-        {/* <FunctionCom /> */}
-        {/* <CompContext /> */}
-        {/* <CompReducer /> */}
-        <CompuseRef />
-      </div>
-    </Context.Provider>
+    // <Context.Provider value="blue">
+    <div style={{ background: movieList && movieList.length > 0 && "blue" }}>
+      {/* <ClassBasedComponent /> */}
+      {/* <FunctionalBasedComponent /> */}
+      {/* <ClassCom /> */}
+      {/* <ClassList /> */}
+      {/* <FunctionCom /> */}
+      {/* <CompContext /> */}
+      {/* <CompReducer /> */}
+      {/* <CompuseRef /> */}
+      <Search />
+      <MovieList />
+    </div>
+    // </Context.Provider>
   );
 }
 
